@@ -1,6 +1,7 @@
 const select = document.querySelector('#criptomonedas');
 const selectDivisa = document.querySelector('#moneda');
 const formulario = document.querySelector('#formulario');
+const resultado = document.querySelector('#resultado');
 
 const objetoCripto = {
     divisa: '',
@@ -56,6 +57,9 @@ function obtenerPrecio(e) {
         mostrarAlerta('Ambos campos son obligatorios');
         return;
     }
+
+    // Consultar la API con los resultados
+    consultarDatosAPI();
 }
 
 function mostrarAlerta(mensaje) {
@@ -71,5 +75,74 @@ function mostrarAlerta(mensaje) {
             divAlerta.remove();
         }, 3000); 
     }
+
+}
+
+function consultarDatosAPI() {
+    const {divisa, criptomoneda} = objetoCripto;
+    const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${divisa}`;
+
+    mostrarSpinner();
+
+    fetch(url)
+        .then(respuesta => respuesta.json())
+        .then(resultado => {
+            mostrarDatosAPI(resultado.DISPLAY[criptomoneda][divisa]);
+            
+        })
+}
+
+function mostrarDatosAPI(datosCripto){
+    limpiarHTML();
+    // console.log(datos);
+    const {PRICE, HIGHDAY, LOWDAY, IMAGEURL, LASTUPDATE} = datosCripto;
+
+    const precio = document.createElement('p');
+    precio.innerHTML = `Precio actual: <span>${PRICE}</span>`;
+
+    const precioMaxDia = document.createElement('p');
+    precioMaxDia.innerHTML = `<p>Precio máximo del día: <span>${HIGHDAY}</span> </p>`;
+
+    const precioMinDia = document.createElement('p');
+    precioMinDia.innerHTML = `<p>Precio mínimo del dia: <span>${LOWDAY}</span> </p>`;
+
+    const ultimaActualizacion = document.createElement('p');
+    ultimaActualizacion.innerHTML = `<p>Actualizado: <span>${LASTUPDATE}</span> </p>`;
+
+    const imagen = document.createElement('img');
+    // Estilos desde JS
+    imagen.width = 150;
+    imagen.height = 150;
+    imagen.style.margin = '0';
+
+    imagen.src = `https://cryptocompare.com/${IMAGEURL}`;
+
+    // Insertar en el HTML
+    resultado.appendChild(precio);
+    resultado.appendChild(precioMaxDia);
+    resultado.appendChild(precioMinDia);
+    resultado.appendChild(ultimaActualizacion);
+    resultado.appendChild(imagen);
+}
+
+function limpiarHTML() {
+    while (resultado.firstChild) {
+        resultado.removeChild(resultado.firstChild);
+    }
+}
+
+function mostrarSpinner() {
+    //limpiarHTML();
+
+    const spinner = document.createElement('div');
+    spinner.classList.add('spinner');
+    spinner.innerHTML = `
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+    `;
+    resultado.appendChild(spinner);
+    
 
 }

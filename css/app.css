@@ -67,6 +67,10 @@ input[type="submit"]{
 p.precio{
     font-size: 30px!important;
 }
+/* Crear una clase donde los bordes de los botones sean redondos */
+.rounded {
+    border-radius: 35px!important;
+}
 
 @media (min-width:480px) {
     form {

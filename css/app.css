@@ -21,7 +21,7 @@ h1::after {
     display: block;
 }
 .container img {
-    margin-top: 150px;
+    margin-top: 65px;
 }
 
 label {
@@ -47,7 +47,6 @@ input[type="submit"]{
     font-weight: bold;
     text-align: center;
 }
-
 .resultado {
     color: white;
 
@@ -59,7 +58,7 @@ input[type="submit"]{
 
 
 .resultado p {
-    font-size: 18px!important;
+    font-size: 15px!important;
 }
 .resultado p span {
     font-weight: bold;
@@ -74,10 +73,42 @@ p.precio{
 
 @media (min-width:480px) {
     form {
-        margin-top: 150px;
+        margin-top: 55px;
     }
 }
 
+.flex{
+    display: flex;
+}
+
+.flex-column{
+    flex-direction: column;
+}
+
+.justify-center{
+    justify-content: center;
+}
+
+.items-center{
+    align-items: center;
+}
+
+.space-between{
+    justify-content: space-between;
+}
+.wrap{
+    flex-wrap: wrap;
+}
+
+.mt-1{
+    margin-top: 1rem;
+}
+.mt-2{
+    margin-top: 2rem;
+}
+.mt-3{
+    margin-top: 3rem;
+}
 /* Spinner */
 .spinner {
     width: 40px;

@@ -19,11 +19,7 @@
                 <form id="formulario">
                     <div class="row">
                         <label>Divisa</label>
-                        <select
-                            class="u-full-width"
-                            id="moneda"
-                            name="divisa"
-                        >
+                        <select class="u-full-width" id="moneda" name="divisa">
                                 <option value="" disabled selected>Selecciona una divisa</option>
                                 <option value="USD">Dolar Estadounidense</option>
                                 <option value="ARS">Peso Argentino</option>
@@ -35,18 +31,17 @@
                     <div class="row">
                     <div>
                         <label>Criptomoneda</label>
-                        <select 
-                            class="u-full-width"
-                            id="criptomonedas"
-                            name="criptomoneda"
-                        >
+                        <select class="u-full-width" id="criptomonedas" name="criptomoneda">
                             <option value="" disabled selected>Selecciona una criptomoneda</option>
                         </select>
                     </div>
                     </div>
                     <input class="button-primary u-full-width rounded" type="submit" value="Obtener precio" />
-
-                    <div id="resultado" class="resultado"></div>
+                    <!-- Se inyecta el HTML con JS -->
+                    <div id="resultado" class="resultado flex flex-col space-between mt-2">
+                        <div id="imagen"></div>
+                        <div id="precio"></div>
+                    </div>
                 </form>
             </div>
         </div>

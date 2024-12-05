@@ -2,6 +2,8 @@ const select = document.querySelector('#criptomonedas');
 const selectDivisa = document.querySelector('#moneda');
 const formulario = document.querySelector('#formulario');
 const resultado = document.querySelector('#resultado');
+const divPrecio = document.querySelector('#precio');
+const divImg = document.querySelector('#imagen');
 
 const objetoCripto = {
     divisa: '',
@@ -14,6 +16,7 @@ const obtenerCripto = criptomonedas => new Promise(resolve => {
 })
 
 document.addEventListener('DOMContentLoaded', () => {
+    formulario.reset();
     consultarAPI();
 
     formulario.addEventListener('submit', obtenerPrecio);
@@ -93,7 +96,10 @@ function consultarDatosAPI() {
 }
 
 function mostrarDatosAPI(datosCripto){
-    limpiarHTML();
+    limpiarHTML(divPrecio);
+    limpiarHTML(divImg);
+    limpiarHTML(resultado)
+    
     // console.log(datos);
     const {PRICE, HIGHDAY, LOWDAY, IMAGEURL, LASTUPDATE} = datosCripto;
 
@@ -117,17 +123,23 @@ function mostrarDatosAPI(datosCripto){
 
     imagen.src = `https://cryptocompare.com/${IMAGEURL}`;
 
+
     // Insertar en el HTML
-    resultado.appendChild(precio);
-    resultado.appendChild(precioMaxDia);
-    resultado.appendChild(precioMinDia);
-    resultado.appendChild(ultimaActualizacion);
-    resultado.appendChild(imagen);
+    divImg.appendChild(imagen);
+
+    divPrecio.appendChild(precio);
+    divPrecio.appendChild(precioMaxDia);
+    divPrecio.appendChild(precioMinDia);
+    divPrecio.appendChild(ultimaActualizacion);
+    
+    resultado.appendChild(divImg);
+    resultado.appendChild(divPrecio);
+    
 }
 
-function limpiarHTML() {
-    while (resultado.firstChild) {
-        resultado.removeChild(resultado.firstChild);
+function limpiarHTML(elemento) {
+    while (elemento.firstChild) {
+        elemento.removeChild(elemento.firstChild);
     }
 }
 

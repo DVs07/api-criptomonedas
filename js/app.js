@@ -4,6 +4,7 @@ const formulario = document.querySelector('#formulario');
 const resultado = document.querySelector('#resultado');
 const divPrecio = document.querySelector('#precio');
 const divImg = document.querySelector('#imagen');
+const divSpinner = document.querySelector('#spinner');
 
 const objetoCripto = {
     divisa: '',
@@ -145,6 +146,7 @@ function limpiarHTML(elemento) {
 
 function mostrarSpinner() {
     //limpiarHTML();
+    limpiarHTML(divSpinner);
 
     const spinner = document.createElement('div');
     spinner.classList.add('spinner');
@@ -154,7 +156,15 @@ function mostrarSpinner() {
             <div class="double-bounce2"></div>
         </div>
     `;
-    resultado.appendChild(spinner);
+    // Insertar el Spinner al principio del div resultado
+    if(resultado.firstChild){
+        /* divSpinner.appendChild(spinner);
+        resultado.appendChild(divSpinner); */
+        resultado.insertBefore(spinner, resultado.firstChild);
+    }else{
+        resultado.appendChild(spinner);
+    }
+    
     
 
 }

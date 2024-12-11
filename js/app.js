@@ -5,6 +5,7 @@ const resultado = document.querySelector('#resultado');
 const divPrecio = document.querySelector('#precio');
 const divImg = document.querySelector('#imagen');
 const divSpinner = document.querySelector('#spinner');
+const divContenedor = document.querySelector('#contenedor');
 
 const objetoCripto = {
     divisa: '',
@@ -88,18 +89,22 @@ function consultarDatosAPI() {
 
     mostrarSpinner();
 
+    // Limpio el HTML para mostrar solo lo nuevo, mientras que el spinner se muestra
+    limpiarHTML(divContenedor);
+    limpiarHTML(divPrecio);
+    limpiarHTML(divImg);
     fetch(url)
         .then(respuesta => respuesta.json())
         .then(resultado => {
             mostrarDatosAPI(resultado.DISPLAY[criptomoneda][divisa]);
-            
         })
 }
 
 function mostrarDatosAPI(datosCripto){
+    limpiarHTML(divSpinner);
+    limpiarHTML(divContenedor);
     limpiarHTML(divPrecio);
     limpiarHTML(divImg);
-    limpiarHTML(resultado)
     
     // console.log(datos);
     const {PRICE, HIGHDAY, LOWDAY, IMAGEURL, LASTUPDATE} = datosCripto;
@@ -114,7 +119,11 @@ function mostrarDatosAPI(datosCripto){
     precioMinDia.innerHTML = `<p>Precio mínimo del dia: <span>${LOWDAY}</span> </p>`;
 
     const ultimaActualizacion = document.createElement('p');
-    ultimaActualizacion.innerHTML = `<p>Actualizado: <span>${LASTUPDATE}</span> </p>`;
+    // Traducir a espanol
+    if(LASTUPDATE.includes('Just now')) {
+        actualizacion = 'Ahora mismo';
+    }
+    ultimaActualizacion.innerHTML = `<p>Actualizado: <span>${actualizacion}</span> </p>`;
 
     const imagen = document.createElement('img');
     // Estilos desde JS
@@ -132,9 +141,12 @@ function mostrarDatosAPI(datosCripto){
     divPrecio.appendChild(precioMaxDia);
     divPrecio.appendChild(precioMinDia);
     divPrecio.appendChild(ultimaActualizacion);
+
     
-    resultado.appendChild(divImg);
-    resultado.appendChild(divPrecio);
+    
+    
+    divContenedor.appendChild(divImg);
+    divContenedor.appendChild(divPrecio);
     
 }
 
@@ -156,15 +168,27 @@ function mostrarSpinner() {
             <div class="double-bounce2"></div>
         </div>
     `;
-    // Insertar el Spinner al principio del div resultado
-    if(resultado.firstChild){
-        /* divSpinner.appendChild(spinner);
-        resultado.appendChild(divSpinner); */
-        resultado.insertBefore(spinner, resultado.firstChild);
-    }else{
-        resultado.appendChild(spinner);
-    }
-    
-    
-
+    divSpinner.appendChild(spinner);
 }
+
+// Crear una funcion que oculte los datos de la funcion mostrarDatosAPI() mientras el spinner se muestra.
+function ocultarDatos() {
+    limpiarHTML(divSpinner);
+    limpiarHTML(divContenedor);
+    limpiarHTML(divPrecio);
+    limpiarHTML(divImg);
+}
+
+// Necesito los metodos de String para trabajar con cadenas de texto
+// Metodos de String
+// Conocer la cantidad de letras de la cadena de texto
+// console.log(producto);
+// console.log(producto.length);
+
+// Devuelve el indice del caracter de mi cadena de texto
+// console.log(producto.indexOf(0));
+// console.log(producto.indexOf("t")); // Si no lo encuentra devuelve -1
+
+// Devuelve true o false si encontro el elemento en la cadena de texto
+// console.log(producto.includes("t"));
+// console.log(producto.includes("Precio"));    

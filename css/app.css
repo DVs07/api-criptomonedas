@@ -76,6 +76,14 @@ p.precio{
         margin-top: 55px;
     }
 }
+/* Media queries para mobiles */
+@media (min-width:360px) and ( max-width:480px) {
+    #contenedor{
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+    }
+}
 
 .flex{
     display: flex;
@@ -83,6 +91,14 @@ p.precio{
 
 .flex-column{
     flex-direction: column;
+}
+
+.w-40{
+    width: 40%;
+}
+
+.w-60{
+    width: 60%;
 }
 
 .justify-center{

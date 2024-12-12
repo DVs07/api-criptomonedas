@@ -7,6 +7,8 @@ const divImg = document.querySelector('#imagen');
 const divSpinner = document.querySelector('#spinner');
 const divContenedor = document.querySelector('#contenedor');
 
+const body = document.querySelector('body');
+const toggleBtn = document.querySelector('#toggle');
 const objetoCripto = {
     divisa: '',
     criptomoneda: ''
@@ -20,6 +22,16 @@ const obtenerCripto = criptomonedas => new Promise(resolve => {
 document.addEventListener('DOMContentLoaded', () => {
     formulario.reset();
     consultarAPI();
+
+    toggleBtn.addEventListener('click', () => {
+        toggleBtn.classList.toggle('active');
+        body.classList.toggle('light-theme');
+        if(body.classList.contains('light-theme')){
+            divPrecio.style.color = '#0d2235';
+        }else{
+            divPrecio.style.color = 'white';
+        }
+    })
 
     formulario.addEventListener('submit', obtenerPrecio);
 
@@ -90,9 +102,8 @@ function consultarDatosAPI() {
     mostrarSpinner();
 
     // Limpio el HTML para mostrar solo lo nuevo, mientras que el spinner se muestra
-    limpiarHTML(divContenedor);
-    limpiarHTML(divPrecio);
-    limpiarHTML(divImg);
+    ocultarDatos();
+
     fetch(url)
         .then(respuesta => respuesta.json())
         .then(resultado => {
@@ -102,9 +113,7 @@ function consultarDatosAPI() {
 
 function mostrarDatosAPI(datosCripto){
     limpiarHTML(divSpinner);
-    limpiarHTML(divContenedor);
-    limpiarHTML(divPrecio);
-    limpiarHTML(divImg);
+    ocultarDatos();
     
     // console.log(datos);
     const {PRICE, HIGHDAY, LOWDAY, IMAGEURL, LASTUPDATE} = datosCripto;
@@ -142,9 +151,6 @@ function mostrarDatosAPI(datosCripto){
     divPrecio.appendChild(precioMinDia);
     divPrecio.appendChild(ultimaActualizacion);
 
-    
-    
-    
     divContenedor.appendChild(divImg);
     divContenedor.appendChild(divPrecio);
     
@@ -173,7 +179,6 @@ function mostrarSpinner() {
 
 // Crear una funcion que oculte los datos de la funcion mostrarDatosAPI() mientras el spinner se muestra.
 function ocultarDatos() {
-    limpiarHTML(divSpinner);
     limpiarHTML(divContenedor);
     limpiarHTML(divPrecio);
     limpiarHTML(divImg);

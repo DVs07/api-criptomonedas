@@ -1,4 +1,4 @@
-const select = document.querySelector('#criptomonedas');
+const selectCriptos = document.querySelector('#criptomonedas');
 const selectDivisa = document.querySelector('#moneda');
 const formulario = document.querySelector('#formulario');
 const resultado = document.querySelector('#resultado');
@@ -26,23 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
     formulario.reset();
     consultarAPI();
 
-    toggleBtn.addEventListener('click', () => {
-        toggleBtn.classList.toggle('active');
-        body.classList.toggle('light-theme');
-        if(body.classList.contains('light-theme')){
-            divPrecio.style.color = '#0d2235';
-            labels.forEach(label => label.style.color = '#0d2235');
-            spinner.style.color = '#0d2235';
-        }else{
-            divPrecio.style.color = 'white';
-            labels.forEach(label => label.style.color = 'white');
-            spinner.style.color = 'white';
-        }
-    })
+    toggleBtn.addEventListener('click', cambiarTema)
 
     formulario.addEventListener('submit', obtenerPrecio);
 
-    select.addEventListener('change', leerValor);
+    selectCriptos.addEventListener('change', leerValor);
     selectDivisa.addEventListener('change', leerValor);
 })
 function consultarAPI() {
@@ -51,32 +39,32 @@ function consultarAPI() {
     fetch(url)
         .then(respuesta => respuesta.json()) // Consulta exitosa...
         .then(resultado => obtenerCripto(resultado.Data))
-        .then(criptomonedas => selectCripto(criptomonedas));
+        .then(criptomonedas => mostrarOpciones(criptomonedas));
 }
 
-function selectCripto(criptomonedas) {
+function mostrarOpciones(criptomonedas) {
     criptomonedas.forEach( cripto => {
-        // console.log(cripto);
+
         const {FullName, Name} = cripto.CoinInfo;
 
         const option = document.createElement('option');
         option.value = Name;
         option.textContent = FullName;
-        select.appendChild(option);
+        selectCriptos.appendChild(option);
 
     });
 }
 
 function leerValor(e) {
     objetoCripto[e.target.name] = e.target.value;
-    // console.log(objetoCripto);
-    
 }
 function obtenerPrecio(e) {
     e.preventDefault();
 
+    // Extraer los valores usando el destructuring
     const {divisa, criptomoneda} = objetoCripto;
 
+    // Validar que ambos campos no esten vacios
     if(divisa === '' || criptomoneda === '') {
         mostrarAlerta('Ambos campos son obligatorios');
         return;
@@ -89,6 +77,7 @@ function obtenerPrecio(e) {
 function mostrarAlerta(mensaje) {
     // console.log(mensaje);
     const existeAlerta = document.querySelector('.error');
+
     if(!existeAlerta) {
         const divAlerta = document.createElement('div');
         divAlerta.classList.add('error', 'mt-10');
@@ -108,7 +97,7 @@ function consultarDatosAPI() {
 
     mostrarSpinner();
 
-    // Limpio el HTML para mostrar solo lo nuevo, mientras que el spinner se muestra
+    // Oculto los datos mientras se muestra el spinner
     ocultarDatos();
 
     fetch(url)
@@ -175,12 +164,17 @@ function mostrarSpinner() {
 
     const spinner = document.createElement('div');
     spinner.classList.add('spinner');
-    spinner.innerHTML = `
-        <div class="spinner">
-            <div class="double-bounce1"></div>
-            <div class="double-bounce2"></div>
-        </div>
-    `;
+
+    // Se reemplazo innerHTML por scripting
+    const dbounce1 = document.createElement('div');
+    dbounce1.classList.add('double-bounce1');
+
+    const dbounce2 = document.createElement('div');
+    dbounce2.classList.add('double-bounce2');
+
+    spinner.appendChild(dbounce1);
+    spinner.appendChild(dbounce2);    
+
     divSpinner.appendChild(spinner);
 }
 
@@ -191,16 +185,16 @@ function ocultarDatos() {
     limpiarHTML(divImg);
 }
 
-// Necesito los metodos de String para trabajar con cadenas de texto
-// Metodos de String
-// Conocer la cantidad de letras de la cadena de texto
-// console.log(producto);
-// console.log(producto.length);
+function cambiarTema(){
 
-// Devuelve el indice del caracter de mi cadena de texto
-// console.log(producto.indexOf(0));
-// console.log(producto.indexOf("t")); // Si no lo encuentra devuelve -1
+    toggleBtn.classList.toggle('active');
+    body.classList.toggle('light-theme');
 
-// Devuelve true o false si encontro el elemento en la cadena de texto
-// console.log(producto.includes("t"));
-// console.log(producto.includes("Precio"));    
+        if(body.classList.contains('light-theme')){
+            divPrecio.style.color = '#0d2235';
+            labels.forEach(label => label.style.color = '#0d2235');
+        }else{
+            divPrecio.style.color = 'white';
+            labels.forEach(label => label.style.color = 'white');
+        }
+}   

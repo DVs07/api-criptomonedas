@@ -9,6 +9,9 @@ const divContenedor = document.querySelector('#contenedor');
 
 const body = document.querySelector('body');
 const toggleBtn = document.querySelector('#toggle');
+
+const labels = document.querySelectorAll('.label');
+
 const objetoCripto = {
     divisa: '',
     criptomoneda: ''
@@ -28,8 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.toggle('light-theme');
         if(body.classList.contains('light-theme')){
             divPrecio.style.color = '#0d2235';
+            labels.forEach(label => label.style.color = '#0d2235');
+            spinner.style.color = '#0d2235';
         }else{
             divPrecio.style.color = 'white';
+            labels.forEach(label => label.style.color = 'white');
+            spinner.style.color = 'white';
         }
     })
 
